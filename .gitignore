@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local environment files
+.env
+.env.*
+
+# macOS
+.DS_Store
+
+# Datasets and generated data
+dataset/
+datasets/
+data/
+
+# YOLO/Ultralytics outputs
+Output_dir/
+runs/
+weights/
+*.cache
+
+# Model weights and exported model artifacts
+*.pt
+*.pth
+*.onnx
+*.engine
+*.tflite
+*.mlpackage/
+*.torchscript
+
+# Logs and temporary files
+*.log
+tmp/
+temp/
