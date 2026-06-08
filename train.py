@@ -27,12 +27,12 @@ RUN_NAMES = {
         "yolo8n": "YOLOv8-Nano-Detect",
         "yolo9t": "YOLOv9-Tiny-Detect",
         "yolo10n": "YOLOv10-Nano-Detect",
-        "yolo11n": "YOLO11-Nano-Detect",
+        "yolo11n": "YOLOv11-Nano-Detect",
     },
     "segment": {
         "yolo8n": "YOLOv8-Nano-Segment",
         "yolo9c": "YOLOv9-Compact-Segment",
-        "yolo11n": "YOLO11-Nano-Segment",
+        "yolo11n": "YOLOv11-Nano-Segment",
     },
 }
 
