@@ -14,21 +14,11 @@ MODEL_WEIGHTS = {
         "yolo9t": "yolov9t.pt",
         "yolo10n": "yolov10n.pt",
         "yolo11n": "yolo11n.pt",
-        "yolo26n": "yolo26n.pt",
-        "yolo26s": "yolo26s.pt",
-        "yolo26m": "yolo26m.pt",
-        "yolo26l": "yolo26l.pt",
-        "yolo26x": "yolo26x.pt",
     },
     "segment": {
         "yolo8n": "yolov8n-seg.pt",
         "yolo9c": "yolov9c-seg.pt",
         "yolo11n": "yolo11n-seg.pt",
-        "yolo26n": "yolo26n-seg.pt",
-        "yolo26s": "yolo26s-seg.pt",
-        "yolo26m": "yolo26m-seg.pt",
-        "yolo26l": "yolo26l-seg.pt",
-        "yolo26x": "yolo26x-seg.pt",
     },
 }
 
@@ -38,39 +28,25 @@ RUN_NAMES = {
         "yolo9t": "YOLOv9-Tiny-Detect",
         "yolo10n": "YOLOv10-Nano-Detect",
         "yolo11n": "YOLOv11-Nano-Detect",
-        "yolo26n": "YOLOv26-Nano-Detect",
-        "yolo26s": "YOLOv26-Small-Detect",
-        "yolo26m": "YOLOv26-Medium-Detect",
-        "yolo26l": "YOLOv26-Large-Detect",
-        "yolo26x": "YOLOv26-XL-Detect",
     },
     "segment": {
         "yolo8n": "YOLOv8-Nano-Segment",
         "yolo9c": "YOLOv9-Compact-Segment",
         "yolo11n": "YOLOv11-Nano-Segment",
-        "yolo26n": "YOLOv26-Nano-Segment",
-        "yolo26s": "YOLOv26-Small-Segment",
-        "yolo26m": "YOLOv26-Medium-Segment",
-        "yolo26l": "YOLOv26-Large-Segment",
-        "yolo26x": "YOLOv26-XL-Segment",
     },
 }
 
 
 def default_batch(task: str, model_key: str) -> int:
-    if task == "segment" and model_key == "yolo26x":
-        return 2
     if task == "segment" and model_key == "yolo9c":
         return 2
-    if task == "segment" and model_key in {"yolo26m", "yolo26l"}:
-        return 4
     if task == "segment":
         return 8
     return 16
 
 
 def default_workers(task: str, model_key: str) -> int:
-    if task == "segment" and model_key in {"yolo9c", "yolo26m", "yolo26l", "yolo26x"}:
+    if task == "segment" and model_key == "yolo9c":
         return 4
     return 8
 
@@ -96,10 +72,8 @@ def parse_args() -> argparse.Namespace:
         "--model",
         default="yolo9t",
         help=(
-            "YOLO model variant. Detect: yolo8n, yolo9t, yolo10n, yolo11n, "
-            "yolo26n, yolo26s, yolo26m, yolo26l, yolo26x. "
-            "Segment: yolo8n, yolo9c, yolo11n, yolo26n, yolo26s, "
-            "yolo26m, yolo26l, yolo26x."
+            "YOLO model variant. Detect: yolo8n, yolo9t, yolo10n, yolo11n. "
+            "Segment: yolo8n, yolo9c, yolo11n."
         ),
     )
     parser.add_argument("--epochs", type=int, default=100, help="Training epochs.")

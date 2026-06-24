@@ -1,6 +1,8 @@
 # ArchDetec YOLO Experiments
 
-Project ini berisi runner training dan visualisasi perbandingan model YOLO untuk dataset arsitektur bangunan tradisional Lampung. Task yang didukung:
+Project ini berisi runner training dan visualisasi perbandingan model YOLO untuk dataset arsitektur bangunan tradisional Lampung.
+
+Task yang didukung:
 
 - Object detection
 - Instance segmentation
@@ -14,8 +16,6 @@ Dataset, model weight, virtual environment, dan output training sengaja tidak di
 ├── train.py                    # Runner utama untuk detect/segment
 ├── compare.py                  # Visualisasi perbandingan results.csv
 ├── train_baseline_detects.py   # Run detect yolo8n, yolo9t, yolo10n, yolo11n
-├── train_yolo26_detects.py     # Run detect yolo26n/s/m/l/x
-├── train_yolo26_segments.py    # Run segment yolo26n/s/m/l/x
 ├── dataset/                    # Dataset YOLO, ignored
 ├── Output_dir/                 # Hasil training dan compare, ignored
 ├── pyproject.toml
@@ -31,7 +31,7 @@ Gunakan `uv run` dari root project. Tidak perlu mengaktifkan `.venv` manual.
 uv run python train.py --help
 ```
 
-Project dikunci untuk Python `>=3.12,<3.14`. Jika environment di cloud terlanjur memakai Python 3.14, buat ulang:
+Project dikunci untuk Python `>=3.12,<3.14`. Jika environment terlanjur memakai Python 3.14, buat ulang:
 
 ```bash
 rm -rf .venv
@@ -83,16 +83,9 @@ mps   # Apple Silicon
 cpu   # CPU
 ```
 
-Contoh:
+## Object Detection
 
-```bash
-uv run python train.py --task detect --model yolo9t --epochs 100 --imgsz 640 --batch 16 --device 0
-uv run python train.py --task segment --model yolo11n --epochs 100 --imgsz 640 --batch 16 --device 0
-```
-
-## Model Detection
-
-Baseline detection:
+Model yang tersedia:
 
 ```text
 yolo8n
@@ -101,37 +94,27 @@ yolo10n
 yolo11n
 ```
 
-YOLO26 detection:
+Jalankan satu model:
 
-```text
-yolo26n
-yolo26s
-yolo26m
-yolo26l
-yolo26x
+```bash
+uv run python train.py --task detect --model yolo9t --epochs 100 --imgsz 640 --batch 16 --device 0
 ```
 
-Run semua baseline detection dalam satu command:
+Jalankan semua model detection berurutan:
 
 ```bash
 uv run python train_baseline_detects.py --epochs 100 --imgsz 640 --batch 16 --device 0 --workers 8
 ```
 
-Resume baseline detection dari model tertentu:
+Resume dari model tertentu:
 
 ```bash
 uv run python train_baseline_detects.py --start-from yolo10n --epochs 100 --imgsz 640 --batch 16 --device 0 --workers 8
 ```
 
-Run semua YOLO26 detection:
+## Instance Segmentation
 
-```bash
-uv run python train_yolo26_detects.py --epochs 100 --imgsz 640 --batch 16 --device 0 --workers 8
-```
-
-## Model Segmentation
-
-Baseline segmentation:
+Model yang tersedia:
 
 ```text
 yolo8n
@@ -139,34 +122,23 @@ yolo9c
 yolo11n
 ```
 
-Catatan: YOLOv10 segmentation tidak tersedia di setup ini. YOLOv9 segmentation yang tersedia adalah `yolo9c`, bukan `yolo9t`.
+Catatan:
 
-YOLO26 segmentation:
+- YOLOv10 segmentation tidak tersedia di setup ini.
+- YOLOv9 segmentation yang tersedia adalah `yolo9c`, bukan `yolo9t`.
 
-```text
-yolo26n
-yolo26s
-yolo26m
-yolo26l
-yolo26x
-```
-
-Run semua YOLO26 segmentation:
+Jalankan satu model:
 
 ```bash
-uv run python train_yolo26_segments.py --epochs 100 --imgsz 640 --batch 16 --device 0 --workers 8
+uv run python train.py --task segment --model yolo11n --epochs 100 --imgsz 640 --batch 16 --device 0
 ```
 
-Resume YOLO26 segmentation dari model tertentu:
+Jalankan semua model segmentation manual:
 
 ```bash
-uv run python train_yolo26_segments.py --start-from yolo26m --epochs 100 --imgsz 640 --batch 16 --device 0 --workers 8
-```
-
-Jika model besar seperti `yolo26x` kehabisan VRAM, turunkan batch:
-
-```bash
-uv run python train.py --task segment --model yolo26x --epochs 100 --imgsz 640 --batch 2 --workers 4 --device 0 --no-deterministic
+uv run python train.py --task segment --model yolo8n --epochs 100 --imgsz 640 --batch 16 --device 0 && \
+uv run python train.py --task segment --model yolo9c --epochs 100 --imgsz 640 --batch 2 --device 0 && \
+uv run python train.py --task segment --model yolo11n --epochs 100 --imgsz 640 --batch 16 --device 0
 ```
 
 ## Output Folder
@@ -177,31 +149,21 @@ Semua hasil training masuk ke:
 Output_dir/
 ```
 
-Contoh output detection:
+Output detection:
 
 ```text
 Output_dir/YOLOv8-Nano-Detect/
 Output_dir/YOLOv9-Tiny-Detect/
 Output_dir/YOLOv10-Nano-Detect/
 Output_dir/YOLOv11-Nano-Detect/
-Output_dir/YOLOv26-Nano-Detect/
-Output_dir/YOLOv26-Small-Detect/
-Output_dir/YOLOv26-Medium-Detect/
-Output_dir/YOLOv26-Large-Detect/
-Output_dir/YOLOv26-XL-Detect/
 ```
 
-Contoh output segmentation:
+Output segmentation:
 
 ```text
 Output_dir/YOLOv8-Nano-Segment/
 Output_dir/YOLOv9-Compact-Segment/
 Output_dir/YOLOv11-Nano-Segment/
-Output_dir/YOLOv26-Nano-Segment/
-Output_dir/YOLOv26-Small-Segment/
-Output_dir/YOLOv26-Medium-Segment/
-Output_dir/YOLOv26-Large-Segment/
-Output_dir/YOLOv26-XL-Segment/
 ```
 
 Isi umum tiap folder:
@@ -220,62 +182,53 @@ val_batch*_pred.jpg
 
 Compare membaca `results.csv` dari folder training.
 
-Baseline + YOLO26 detection:
+Compare detection:
 
 ```bash
 uv run python compare.py --task detect
 ```
 
-Khusus YOLO26 detection:
-
-```bash
-uv run python compare.py --task detect26
-```
-
-Baseline + YOLO26 segmentation:
+Compare segmentation:
 
 ```bash
 uv run python compare.py --task segment
-```
-
-Khusus YOLO26 segmentation:
-
-```bash
-uv run python compare.py --task segment26
 ```
 
 Output compare:
 
 ```text
 Output_dir/compare_detection/
-Output_dir/compare_yolo26_detection/
 Output_dir/compare_segmentation/
-Output_dir/compare_yolo26_segmentation/
 ```
 
 ## Troubleshooting
 
-Jika muncul cuDNN/CUDA error:
+Jika muncul CUDA/cuDNN error:
 
 ```text
 CUDNN_STATUS_INTERNAL_ERROR
 CUBLAS_STATUS_ALLOC_FAILED
 ```
 
-Coba:
+Cek GPU dan proses lain:
 
 ```bash
 nvidia-smi
-uv run python train.py --task segment --model yolo26x --epochs 1 --imgsz 640 --batch 2 --workers 4 --device 0 --no-deterministic
 ```
 
-Jika masih error, turunkan batch dan matikan AMP:
+Coba turunkan batch dan matikan deterministic:
 
 ```bash
-uv run python train.py --task segment --model yolo26x --epochs 1 --imgsz 512 --batch 1 --workers 2 --device 0 --no-amp --no-deterministic
+uv run python train.py --task segment --model yolo9c --epochs 1 --imgsz 640 --batch 1 --workers 2 --device 0 --no-deterministic
 ```
 
-Cek apakah proses dibunuh sistem:
+Jika masih error, matikan AMP:
+
+```bash
+uv run python train.py --task segment --model yolo9c --epochs 1 --imgsz 512 --batch 1 --workers 0 --device 0 --no-amp --no-deterministic
+```
+
+Cek apakah proses dibunuh sistem karena memory:
 
 ```bash
 dmesg -T | grep -i -E "killed process|out of memory|oom"
