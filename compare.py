@@ -103,7 +103,7 @@ def plot_metric_lines(
         if not series:
             continue
         epochs = get_epochs(rows, len(series))
-        plt.plot(epochs, series, marker="o", linewidth=2, markersize=3, label=label)
+        plt.plot(epochs, series, markersize=3, label=label)
         plotted = True
 
     if not plotted:

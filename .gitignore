@@ -8,6 +8,7 @@ __pycache__/
 .ruff_cache/
 .coverage
 htmlcov/
+.ipynb_checkpoints/
 
 # Virtual environments
 .venv/
@@ -21,16 +22,30 @@ env/
 # macOS
 .DS_Store
 
+# Editors
+.vscode/
+.idea/
+
 # Datasets and generated data
 dataset/
 datasets/
 data/
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
 
 # YOLO/Ultralytics outputs
 Output_dir/
 runs/
 weights/
 *.cache
+wandb/
+mlruns/
+tensorboard/
+events.out.tfevents*
 
 # Model weights and exported model artifacts
 *.pt
@@ -38,10 +53,17 @@ weights/
 *.onnx
 *.engine
 *.tflite
+*.pb
+*.ncnn/
+*.openvino/
+*.saved_model/
 *.mlpackage/
 *.torchscript
+*.safetensors
 
 # Logs and temporary files
 *.log
+*.out
+*.err
 tmp/
 temp/
